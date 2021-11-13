@@ -10,6 +10,17 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+ReactDOM.render(
+    <ThemeProvider theme={theme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    </ThemeProvider>,
+    document.getElementById('root'),
+);
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
