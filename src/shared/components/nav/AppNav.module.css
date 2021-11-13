@@ -1,0 +1,12 @@
+
+
+
+.main-nav li
+{
+    display: inline;
+}
+
+.main-nav a
+{
+    text-decoration: none;
+}
