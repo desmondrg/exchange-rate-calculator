@@ -7,10 +7,11 @@ import IconButton from '@mui/material/IconButton';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Container from '@mui/material/Container';
 import Slide from '@mui/material/Slide';
 import {Fab, Zoom} from '@mui/material';
 import AppNav from './shared/components/nav/AppNav';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface Props {
     /**
@@ -81,7 +82,7 @@ export default function AppLayout(props: Props) {
             <CssBaseline />
             <HideOnScroll {...props}>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="static">
+                    <AppBar position="absolute">
                         <Toolbar>
                             <IconButton
                                 size="large"
@@ -90,6 +91,7 @@ export default function AppLayout(props: Props) {
                                 aria-label="menu"
                                 sx={{ mr: 2 }}
                             >
+                                <MenuIcon />
                             </IconButton>
                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                                 Shumba Rate Exchange
@@ -101,15 +103,10 @@ export default function AppLayout(props: Props) {
                     </AppBar>
                 </Box>
             </HideOnScroll>
-            <Toolbar />
-            <Container>
-                <Box sx={{ my: 2 }}>
                     {props.children}
-                </Box>
-            </Container>
             <ScrollTop {...props}>
-                <Fab color="secondary" size="small" aria-label="scroll back to top">
-                    {/*<KeyboardArrowUpIcon />*/}
+                <Fab color="primary" size="small" aria-label="scroll back to top">
+                    <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
         </React.Fragment>

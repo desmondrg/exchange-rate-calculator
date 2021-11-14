@@ -1,12 +1,17 @@
 
+.main-nav
+{
 
+}
 
 .main-nav li
 {
     display: inline;
+    margin-right: 20px;
 }
 
 .main-nav a
 {
     text-decoration: none;
+    color: white;
 }
