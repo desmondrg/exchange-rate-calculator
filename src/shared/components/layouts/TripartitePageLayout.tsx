@@ -1,6 +1,8 @@
 import {Card, Typography} from '@mui/material';
 import * as React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import {SxProps} from '@mui/system';
+import {Theme} from '@mui/material/styles';
 
 interface Props
 {
@@ -8,6 +10,9 @@ interface Props
     heroImageUrl: string;
     heroTitle?: string;
     heroSubtitle?: string;
+    heroTitleSx?: SxProps<Theme>;
+    heroSubtitleSx?: SxProps<Theme>;
+
 }
 
 export default function TripartitePageLayout(props: Props)
@@ -23,8 +28,8 @@ export default function TripartitePageLayout(props: Props)
             <div className='page-header' style={{backgroundImage: `url('${props.heroImageUrl}')`}}>
 
                 <div className='w-100 h-75 c-flex'>
-                   {props.heroTitle && <Typography variant='h1' color='white' sx={{ textAlign: 'center', fontSize: isTabletOrMobile ? '24px' : '34px', marginBottom: '0.5em'}}>{props.heroTitle}</Typography>}
-                    {props.heroSubtitle && <Typography variant='h2' color='white' sx={{textAlign: 'center', fontSize: isTabletOrMobile ? '16px' : '24px'}}>{props.heroSubtitle}</Typography>}
+                   {props.heroTitle && <Typography variant='h1' color='white' sx={{ textAlign: 'center', fontSize: isTabletOrMobile ? '24px' : '34px', marginBottom: '0.5em', ...props?.heroTitleSx}}>{props.heroTitle}</Typography>}
+                    {props.heroSubtitle && <Typography variant='h2' color='white' sx={{textAlign: 'center', fontSize: isTabletOrMobile ? '16px' : '24px', ...props?.heroSubtitleSx}}>{props.heroSubtitle}</Typography>}
                 </div>
 
             </div>

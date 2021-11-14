@@ -16,6 +16,9 @@ import AppNav from '../nav/AppNav';
 import {useState} from 'react';
 import {DrawerNav} from '../nav/DrawerNav';
 import {appConstants} from '../../../constants';
+import {Link} from 'react-router-dom';
+import appLogo from '../../../assets/img/logo/shumba-money-logo.png';
+import './AppLayout.css';
 
 interface Props {
     /**
@@ -103,15 +106,9 @@ export default function AppLayout(props: Props) {
                     <AppBar position="absolute" style={{ background: 'transparent', boxShadow: 'none'}}>
 
                         <Toolbar>
-                            <IconButton onClick={onToggleDrawerClicked}
-                                        size="large"
-                                        edge="start"
-                                        color="inherit"
-                                        aria-label="menu"
-                                        sx={{ mr: 2 }}
-                            >
-                                <MenuIcon />
-                            </IconButton>
+                            <Link to='/'>
+                                <img alt='Shumba Money' src={`${appLogo}`} className='app-logo'/>
+                            </Link>
                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}/>
                             {!isTabletOrMobile && <AppNav onMenuItemClicked={() => {}} menuLinks={appConstants.localSiteUrls}/>}
                             {isTabletOrMobile &&
