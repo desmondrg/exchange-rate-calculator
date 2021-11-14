@@ -1,5 +1,5 @@
 import TripartatePageLayout from '../../../shared/components/layouts/TripartatePageLayout';
-import CountrySelectInput from '../../../shared/components/input/CountrySelectInput';
+import CurrencySelectInput from '../../../shared/components/input/CurrencySelectInput';
 import {currencies} from '../../../core/data/AppSeedingSource';
 import {ICurrency, IRateConversionResult} from '../../../core/data/DataTypes';
 import {useState} from 'react';
@@ -14,8 +14,8 @@ export default function LandingPage()
     const [amount, setAmount] = useState(0.00);
     const [conversionResult, setConversionResult] = useState({} as IRateConversionResult);
 
-    const [fromCurrency, setFromCurrency] = useState({} as ICurrency);
-    const [toCurrency, setToCurrency] = useState({} as ICurrency);
+    const [sourceCurrency, setSourceCurrency] = useState({} as ICurrency);
+    const [targetCurrency, setTargetCurrency] = useState({} as ICurrency);
     const [matcherOfAmountInput, setMatcherOfAmountInput] = useState({isValid: true, errorMessage: ''});
 
     // function validateInputAmount(input: string)
@@ -27,16 +27,16 @@ export default function LandingPage()
     //     return false;
     // }
 
-    function onFromCurrencySelected(currency: ICurrency)
+    function onSourceCurrencySelected(currency: ICurrency)
     {
         console.log(`From currency selected ${JSON.stringify(currency, null, 2)}`);
-        setFromCurrency(currency);
+        setSourceCurrency(currency);
     }
 
-    function onToCurrencySelected(currency: ICurrency)
+    function onTargetCurrencySelected(currency: ICurrency)
     {
         console.log(`To currency selected ${JSON.stringify(currency, null, 2)}`);
-        setToCurrency(currency);
+        setTargetCurrency(currency);
 
     }
 
@@ -46,18 +46,18 @@ export default function LandingPage()
         console.log(`Swap currencies clicked!!!`)
 
         // only perform swapping if both currencies have non default placeholder empty objects
-        if(fromCurrency?.name && toCurrency?.name)
+        if(sourceCurrency?.name && targetCurrency?.name)
         {
-            // first hold onto the to currency before performing the basic swap algorithm
-            let tempCurrency = {...toCurrency};
+            // first hold onto the to / target currency before performing the basic swap algorithm
+            let tempCurrency = {...targetCurrency};
 
-            // update the to currency with the value of the from currency
-            setToCurrency(fromCurrency);
+            // update the to / target currency with the value of the from currency
+            setTargetCurrency(sourceCurrency);
 
-            // update the from currency with the value of the temp currency
-            setFromCurrency(tempCurrency);
+            // update the from / source currency with the value of the temp currency
+            setSourceCurrency(tempCurrency);
 
-            console.log(`To currency swaped current from : ${JSON.stringify(fromCurrency, null, 2)}  to: ${JSON.stringify(toCurrency, null, 2)}`);
+            console.log(`To currency swapped current from : ${JSON.stringify(sourceCurrency, null, 2)}  to: ${JSON.stringify(targetCurrency, null, 2)}`);
 
         }
     }
@@ -84,17 +84,17 @@ export default function LandingPage()
     function onConvertCurrenciesClicked(): void
     {
 
-        const sourceConversionRate = fromCurrency.rateToUsd / toCurrency.rateToUsd;
+        const sourceConversionRate = sourceCurrency.rateToUsd / targetCurrency.rateToUsd;
 
-        const destConversionRate = toCurrency.rateToUsd / fromCurrency.rateToUsd;
+        const destConversionRate = targetCurrency.rateToUsd / sourceCurrency.rateToUsd;
 
         const convertedAmount = amount * sourceConversionRate;
 
         const convResult: IRateConversionResult = {
             sourceAmount: amount,
             convertedAmount,
-            sourceCurrency: {...fromCurrency, conversionRate: sourceConversionRate },
-            convertedCurrency: {...toCurrency, conversionRate: destConversionRate }
+            sourceCurrency: {...sourceCurrency, crossRate: sourceConversionRate },
+            targetCurrency: {...targetCurrency, crossRate: destConversionRate }
         }
 
         setConversionResult(convResult);
@@ -115,20 +115,20 @@ export default function LandingPage()
                                InputProps={{
                                    startAdornment: (
                                        <InputAdornment position="start">
-                                           <Typography variant='body1'>{fromCurrency?.symbol}</Typography>
+                                           <Typography variant='body1'>{sourceCurrency?.symbol}</Typography>
                                        </InputAdornment>
                                    ),
                                }}
                                onChange={onAmountInputChanged} />
                        </div>
                        <div className='col-md-4 p-2'>
-                           <CountrySelectInput
+                           <CurrencySelectInput
                                sx={{width: '100%'}}
                                currencies={currencies}
                                labelId='from-currency-id'
                                labelTitle='From'
                                initialSectedIndex={0}
-                               onCurrencySelected={onFromCurrencySelected}/>
+                               onCurrencySelected={onSourceCurrencySelected}/>
                        </div>
                        <div className='col-md-1  c-flex p-2'>
                            <SwapButton
@@ -136,32 +136,32 @@ export default function LandingPage()
                                onSwapClicked={onSwapCurrenciesSelected}/>
                        </div>
                        <div className='col-md-4 p-2'>
-                           <CountrySelectInput
+                           <CurrencySelectInput
                                sx={{width: '100%'}}
                                currencies={currencies}
                                labelId='to-currency-id'
                                labelTitle='To'
                                initialSectedIndex={1}
-                               onCurrencySelected={onToCurrencySelected}/>
+                               onCurrencySelected={onTargetCurrencySelected}/>
                        </div>
                    </div>
 
-                   <ConvertButtonRow isDisabled={!matcherOfAmountInput.isValid || !fromCurrency?.name || !toCurrency.name} title='Convert' onClick={onConvertCurrenciesClicked} />
+                   <ConvertButtonRow isDisabled={!matcherOfAmountInput.isValid || !sourceCurrency?.name || !targetCurrency.name} title='Convert' onClick={onConvertCurrenciesClicked} />
 
-                   {conversionResult?.sourceCurrency?.name && conversionResult.convertedCurrency?.name &&
+                   {conversionResult?.sourceCurrency?.name && conversionResult.targetCurrency?.name &&
                    <div className='row w-100'>
                       <div className='col-md-6'>
                           <div className='row mb-2'>
                               <Typography variant='h6'>{conversionResult.sourceAmount} {conversionResult.sourceCurrency.namePlural}  = </Typography>
-                              <Typography variant='h5'>{conversionResult.convertedAmount} {conversionResult.convertedCurrency.namePlural}</Typography>
+                              <Typography variant='h5'>{conversionResult.convertedAmount} {conversionResult.targetCurrency.namePlural}</Typography>
                           </div>
                           <div className='row'>
-                              <Typography variant='body2'>1 {conversionResult.sourceCurrency.code} = {conversionResult.sourceCurrency.conversionRate} {conversionResult.convertedCurrency.code}</Typography>
-                              <Typography variant='body2'>1 {conversionResult.convertedCurrency.code} = {conversionResult.convertedCurrency.conversionRate} {conversionResult.sourceCurrency.code}</Typography>
+                              <Typography variant='body2'>1 {conversionResult.sourceCurrency.code} = {conversionResult.sourceCurrency.crossRate} {conversionResult.targetCurrency.code}</Typography>
+                              <Typography variant='body2'>1 {conversionResult.targetCurrency.code} = {conversionResult.targetCurrency.crossRate} {conversionResult.sourceCurrency.code}</Typography>
                           </div>
                       </div>
                        <div className='col-md-6 d-flex align-items-center'>
-                           <Typography variant='body2'>{conversionResult.sourceCurrency.name} to {conversionResult.convertedCurrency.name} conversion last updated {dateFormat(conversionResult.sourceCurrency.dateUpdated, appConstants.dateFormat)}</Typography>
+                           <Typography variant='body2'>{conversionResult.sourceCurrency.name} to {conversionResult.targetCurrency.name} conversion last updated {dateFormat(conversionResult.sourceCurrency.dateUpdated, appConstants.dateFormat)}</Typography>
                        </div>
                    </div>}
                </div>

@@ -11,15 +11,15 @@ export interface ICurrency
     dateUpdated: string;
 }
 
-export interface IConvertedCurrency extends ICurrency
+export interface ICrossRateCurrency extends ICurrency
 {
-    conversionRate: number;
+    crossRate: number;
 }
 
 export interface IRateConversionResult
 {
     sourceAmount: number,
     convertedAmount: number,
-    sourceCurrency: IConvertedCurrency,
-    convertedCurrency: IConvertedCurrency
+    sourceCurrency: ICrossRateCurrency,
+    targetCurrency: ICrossRateCurrency
 }

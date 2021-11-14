@@ -21,7 +21,7 @@ interface Props
     onCurrencySelected(currency: ICurrency): void;
 }
 
-export default function CountrySelectInput(props: Props)
+export default function CurrencySelectInput(props: Props)
 {
 
     let defaultCurrency = {} as ICurrency;
