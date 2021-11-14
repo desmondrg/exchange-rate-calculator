@@ -1,4 +1,4 @@
-import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar} from '@mui/material';
+import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, useMediaQuery} from '@mui/material';
 // import AppNav from './AppNav';
 import InboxIcon from '@mui/icons-material/Inbox';
 import MailIcon from '@mui/icons-material/Mail';
@@ -19,13 +19,13 @@ const container = window !== undefined ? () => window.document.body : undefined;
 export function DrawerNav(props: Props)
 {
     // const isTablet = useMediaQuery('(max-width:768px)');
-    // const isMobile = useMediaQuery('(max-width:480px)');
+    const isMobile = useMediaQuery('(max-width:480px)');
 
     return (<Drawer open={props.isOpen}
                     variant="temporary"
                     container={container}
                     onClose={props.onCloseDrawer}
-                    sx={{width: '20%'}}
+                    PaperProps={{sx:{width: isMobile ?  '50%' : '200px'}}}
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
                     }}>

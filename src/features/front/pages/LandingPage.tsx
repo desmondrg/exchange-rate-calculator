@@ -1,4 +1,4 @@
-import TripartatePageLayout from '../../../shared/components/layouts/TripartatePageLayout';
+import TripartitePageLayout from '../../../shared/components/layouts/TripartitePageLayout';
 import CurrencySelectInput from '../../../shared/components/input/CurrencySelectInput';
 // import {currencies} from '../../../core/data/AppSeedingSource';
 import {useEffect, useState} from 'react';
@@ -128,7 +128,7 @@ export default function LandingPage()
     }
 
 
-    return (<TripartatePageLayout
+    return (<TripartitePageLayout
             heroImageUrl={heroImageUrl}
             heroTitle='Shumba Money Rate Exchange Calculator'
             heroSubtitle='Check Local Foreign Currency Exchange Rates'>
@@ -196,6 +196,6 @@ export default function LandingPage()
                    </div>}
                </div>
            </div>
-        </TripartatePageLayout>
+        </TripartitePageLayout>
     );
 }

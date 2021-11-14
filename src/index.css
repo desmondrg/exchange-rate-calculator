@@ -40,18 +40,17 @@ code {
 
 .page-header
 {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  background: yellow;
+  background: transparent;
   height: 50vh;
-  position: relative;
 }
 
-.page-delocalized
+.page-middle
 {
-  background: blue;
+  background: transparent;
   width: 100%;
   display: flex;
   flex-direction: column;
