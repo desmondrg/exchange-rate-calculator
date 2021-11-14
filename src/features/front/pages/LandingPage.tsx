@@ -1,6 +1,6 @@
 import TripartitePageLayout from '../../../shared/components/layouts/TripartitePageLayout';
 import CurrencySelectInput from '../../../shared/components/input/CurrencySelectInput';
-// import {currencies} from '../../../core/data/AppSeedingSource';
+import {currencies} from '../../../core/data/AppSeedingSource';
 import {useEffect, useState} from 'react';
 import SwapButton from '../../../shared/components/buttons/SwapButton';
 import {InputAdornment, TextField, Typography} from '@mui/material';
@@ -10,6 +10,8 @@ import dateFormat from "dateformat";
 import {ICurrency, IRateConversionResult} from '../../../common/common-models';
 import heroImageUrl from "../../../assets/img/bg/main-hero-background.jpg";
 import {appDataService} from '../../../core/services/app-data.service';
+// import {appDataService} from '../../../core/services/app-data.service';
+
 
 /**
  * The landing Page Component Used to render the Rate Converter
@@ -19,6 +21,9 @@ export default function LandingPage()
     // all states are initialized only one during the initial rendering of the component
     const [amount, setAmount] = useState(0.00);
     const [conversionResult, setConversionResult] = useState({} as IRateConversionResult);
+
+    const [isInitialConvert, setIsInitialConvert] = useState(true);
+
 
     const [allCurrencies, setAllCurrencies] = useState([] as ICurrency[]);
     const [sourceCurrency, setSourceCurrency] = useState({} as ICurrency);
@@ -38,12 +43,17 @@ export default function LandingPage()
         // respective API
         appDataService.getCurrencies().subscribe(data => {
 
-            console.log(`got currency data ${JSON.stringify(data, null, 2)}`);
-            setAllCurrencies(data);
+            console.log(`got currency data from server : ${JSON.stringify(data, null, 2)}`);
+            // setAllCurrencies(data);
 
         });
 
+        setAllCurrencies(currencies);
+
+
     }, []);
+
+
 
     // function validateInputAmount(input: string)
     // {
@@ -58,12 +68,16 @@ export default function LandingPage()
     {
         console.log(`From currency selected ${JSON.stringify(currency, null, 2)}`);
         setSourceCurrency(currency);
+        autoRunConversionIfPossible();
+
     }
 
     function onSelectTargetCurrency(currency: ICurrency)
     {
         console.log(`To currency selected ${JSON.stringify(currency, null, 2)}`);
         setTargetCurrency(currency);
+        autoRunConversionIfPossible();
+
 
     }
 
@@ -86,6 +100,32 @@ export default function LandingPage()
 
             console.log(`To currency swapped current from : ${JSON.stringify(sourceCurrency, null, 2)}  to: ${JSON.stringify(targetCurrency, null, 2)}`);
 
+            // the convert button disappears after the first conversion therefore automatically call the convert fxn when
+            // a user clicks the swap button
+            // the convert button was configured to disappear for ux reasons : since users may forget to click it once
+            // conversion results are displayed thereby resulting in them quoting the wrong values
+            autoRunConversionIfPossible();
+        }
+    }
+
+    /**
+     * Automatically runs conversion of currencies provided
+     * valid currencies are selected in both input fields
+     * This may be necessary once the convert button disappears
+     * after the first conversion run
+     */
+    function autoRunConversionIfPossible()
+    {
+        if(sourceCurrency?.name && targetCurrency?.name)
+        {
+            // the convert button disappears after the first conversion therefore automatically call the convert fxn when
+            // a user clicks the swap button
+            // the convert button was configured to disappear for ux reasons : since users may forget to click it once
+            // conversion results are displayed thereby resulting in them quoting the wrong values
+            if(!isInitialConvert)
+            {
+                onConvertCurrenciesClicked();
+            }
         }
     }
 
@@ -124,6 +164,7 @@ export default function LandingPage()
             targetCurrency: {...targetCurrency, crossRate: destConversionRate }
         }
 
+        setIsInitialConvert(false);
         setConversionResult(convResult);
     }
 
@@ -176,7 +217,10 @@ export default function LandingPage()
                        </div>
                    </div>
 
-                   <ConvertButtonRow isDisabled={!matcherOfAmountInput.isValid || !sourceCurrency?.name || !targetCurrency.name} title='Convert' onClick={onConvertCurrenciesClicked} />
+                   {isInitialConvert && <ConvertButtonRow
+                       isDisabled={!matcherOfAmountInput.isValid || !sourceCurrency?.name || !targetCurrency.name}
+                       title='Convert'
+                       onClick={onConvertCurrenciesClicked} />}
 
                    {conversionResult?.sourceCurrency?.name && conversionResult.targetCurrency?.name &&
                    <div className='row w-100'>
