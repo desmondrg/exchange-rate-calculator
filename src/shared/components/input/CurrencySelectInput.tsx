@@ -15,37 +15,46 @@ interface Props
     labelTitle: string;
     labelId: string;
     currencies: ICurrency[];
-    initialSectedIndex: number;
+    selectedCurrencyName: string;
     sx: SxProps<Theme>;
 
-    onCurrencySelected(currency: ICurrency): void;
+    onSelectCurrency(currency: ICurrency): void;
 }
 
 export default function CurrencySelectInput(props: Props)
 {
+    let currencyToSelect = {} as ICurrency;
 
-    let defaultCurrency = {} as ICurrency;
-    // only select a currency as initially selected if its index is not past the bounds of the last index of the arry
-    if(props.currencies.length - 1 <= props.initialSectedIndex)
+    // add the default currency to props for auto select of the input using an index
+    const localCurrencies = [{name: ''} as ICurrency, ...props.currencies];
+
+
+    // use the passed in currency name to find the currency to select
+    if(localCurrencies.length)
     {
+         const  currencyOrNot = localCurrencies.find(x => x.name === props.selectedCurrencyName);
 
-        defaultCurrency = props.currencies[props.initialSectedIndex];
+         if(currencyOrNot)
+         {
+             currencyToSelect = currencyOrNot;
+         }
+        // setCurrency(currencyToSelect);
     }
 
     // default currency is set only once even if the component is re-rendered
-    const [currency, setCurrency] = React.useState(defaultCurrency);
 
 
     const handleChange = (event: SelectChangeEvent) => {
 
-        const selectedCurrency = props.currencies.find(x => x.name === event.target.value as string);
+        const selectedCurrency = localCurrencies.find(x => x.name === event.target.value as string);
 
-        console.log(`Selected currency : ${selectedCurrency}`);
+        console.log(`Selected option value : ${event.target.value} yielded currency : ${selectedCurrency}`);
 
         if(selectedCurrency)
         {
-            setCurrency(selectedCurrency);
-            props.onCurrencySelected(selectedCurrency);
+            props.onSelectCurrency(selectedCurrency);
+        }else{
+
         }
     };
 
@@ -56,12 +65,11 @@ export default function CurrencySelectInput(props: Props)
                 <Select
                     labelId={props.labelId + '-label'}
                     id={props.labelId}
-                    value={currency?.name}
-                    defaultValue=""
+                    value={currencyToSelect?.name}
                     label={props.labelTitle}
                     onChange={handleChange}
                 >
-                    {props.currencies.map(x => {
+                    {localCurrencies.map(x => {
                         console.log(x.name);
                        return <MenuItem key={x.code} value={x.name}>
                            <div className='row'>

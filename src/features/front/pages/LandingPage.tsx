@@ -27,13 +27,13 @@ export default function LandingPage()
     //     return false;
     // }
 
-    function onSourceCurrencySelected(currency: ICurrency)
+    function onSelectSourceCurrency(currency: ICurrency)
     {
         console.log(`From currency selected ${JSON.stringify(currency, null, 2)}`);
         setSourceCurrency(currency);
     }
 
-    function onTargetCurrencySelected(currency: ICurrency)
+    function onSelectTargetCurrency(currency: ICurrency)
     {
         console.log(`To currency selected ${JSON.stringify(currency, null, 2)}`);
         setTargetCurrency(currency);
@@ -127,8 +127,8 @@ export default function LandingPage()
                                currencies={currencies}
                                labelId='from-currency-id'
                                labelTitle='From'
-                               initialSectedIndex={0}
-                               onCurrencySelected={onSourceCurrencySelected}/>
+                               selectedCurrencyName={sourceCurrency.name ?? ''}
+                               onSelectCurrency={onSelectSourceCurrency}/>
                        </div>
                        <div className='col-md-1  c-flex p-2'>
                            <SwapButton
@@ -141,8 +141,8 @@ export default function LandingPage()
                                currencies={currencies}
                                labelId='to-currency-id'
                                labelTitle='To'
-                               initialSectedIndex={1}
-                               onCurrencySelected={onTargetCurrencySelected}/>
+                               selectedCurrencyName={targetCurrency.name ?? ''}
+                               onSelectCurrency={onSelectTargetCurrency}/>
                        </div>
                    </div>
 
