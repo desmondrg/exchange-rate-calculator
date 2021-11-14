@@ -1,4 +1,4 @@
-import {Card, Typography} from '@mui/material';
+import {Box, Card, Typography} from '@mui/material';
 import * as React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {SxProps} from '@mui/system';
@@ -33,11 +33,11 @@ export default function TripartitePageLayout(props: Props)
                 </div>
 
             </div>
-            <div className='main main-raised page-middle'>
+            <Box className='main main-raised page-middle' sx={{minHeight: '45vh'}}>
                 <Card sx={{width: '90%', padding: '20px', minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: '33%'}}>
                     {props.children}
                 </Card>
-            </div>
+            </Box>
             <div className='page-bottom'>
 
             </div>

@@ -19,6 +19,7 @@ import {appConstants} from '../../../constants';
 import {Link} from 'react-router-dom';
 import appLogo from '../../../assets/img/logo/shumba-money-logo.png';
 import './AppLayout.css';
+import AppFooter from '../footers/AppFooter';
 
 interface Props {
     /**
@@ -127,6 +128,7 @@ export default function AppLayout(props: Props) {
                 </Box>
             </HideOnScroll>
                     {props.children}
+                    <AppFooter/>
             <ScrollTop {...props}>
                 <Fab color="primary" size="small" aria-label="scroll back to top">
                     <KeyboardArrowUpIcon />
