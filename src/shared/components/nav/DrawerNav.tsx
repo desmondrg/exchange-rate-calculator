@@ -3,7 +3,7 @@ import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar} fr
 import InboxIcon from '@mui/icons-material/Inbox';
 import MailIcon from '@mui/icons-material/Mail';
 // import useMediaQuery from '@mui/material/useMediaQuery';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {IMenuLinkItem} from '../../../common/common-models';
 
 interface Props
@@ -20,14 +20,6 @@ export function DrawerNav(props: Props)
 {
     // const isTablet = useMediaQuery('(max-width:768px)');
     // const isMobile = useMediaQuery('(max-width:480px)');
-
-    const navigate = useNavigate();
-
-    function onLinkItemClicked(path: string)
-    {
-        navigate(path);
-    }
-
 
     return (<Drawer open={props.isOpen}
                     variant="temporary"
