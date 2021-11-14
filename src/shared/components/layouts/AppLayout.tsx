@@ -9,9 +9,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import {Fab, Zoom} from '@mui/material';
-import AppNav from './shared/components/nav/AppNav';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import MenuIcon from '@mui/icons-material/Menu';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import AppNav from '../nav/AppNav';
+import {useState} from 'react';
+import {DrawerNav} from '../nav/DrawerNav';
+import {appConstants} from '../../../constants';
 
 interface Props {
     /**
@@ -77,14 +81,32 @@ function ScrollTop(props: Props) {
 
 
 export default function AppLayout(props: Props) {
+
+    const isTablet = useMediaQuery('(max-width:768px)');
+    const isMobile = useMediaQuery('(max-width:480px)');
+
+    const isTabletOrMobile = isTablet || isMobile;
+
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+
+    function onToggleDrawerClicked(): void
+    {
+        setIsDrawerOpen(!isDrawerOpen);
+    }
+
     return (
         <React.Fragment>
             <CssBaseline />
             <HideOnScroll {...props}>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="absolute">
+                    <AppBar position="absolute" style={{ background: 'transparent', boxShadow: 'none'}}>
+
                         <Toolbar>
-                            <IconButton
+                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}/>
+                            {!isTabletOrMobile && <AppNav onMenuItemClicked={() => {}} menuLinks={appConstants.localSiteUrls}/>}
+                            {isTabletOrMobile &&
+                            <IconButton onClick={onToggleDrawerClicked}
                                 size="large"
                                 edge="start"
                                 color="inherit"
@@ -92,14 +114,9 @@ export default function AppLayout(props: Props) {
                                 sx={{ mr: 2 }}
                             >
                                 <MenuIcon />
-                            </IconButton>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                Shumba Rate Exchange
-                            </Typography>
-
-                            <AppNav/>
-
+                            </IconButton>}
                         </Toolbar>
+                        <DrawerNav isOpen={isDrawerOpen} onMenuItemClicked={onToggleDrawerClicked} onCloseDrawer={onToggleDrawerClicked} menuLinks={appConstants.localSiteUrls}/>
                     </AppBar>
                 </Box>
             </HideOnScroll>

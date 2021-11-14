@@ -5,7 +5,7 @@ import LandingPage from './features/front/pages/LandingPage';
 import InfoLayout from './features/info/InfoLayout';
 import AboutUsPage from './features/info/pages/AboutUsPage';
 import TermsAndConditionsPage from './features/info/pages/TermsAndConditionsPage';
-import AppLayout from './AppLayout';
+import AppLayout from './shared/components/layouts/AppLayout';
 
 function App() {
   return (

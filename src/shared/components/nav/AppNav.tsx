@@ -1,32 +1,23 @@
 import './AppNav.css';
-import Typography from '@mui/material/Typography';
 import {Link} from 'react-router-dom';
 import * as React from 'react';
+import {IMenuLinkItem} from '../../../common/common-models';
+import {List, ListItem, ListItemText} from '@mui/material';
 
-export default function AppNav()
+interface Props
+{
+    menuLinks: IMenuLinkItem[];
+    onMenuItemClicked: () => void
+}
+
+export default function AppNav(props: Props)
 {
     return (
-        <ul className='main-nav'>
-        <li>
-           <Link to='/'>
-               <Typography variant="h6" component="span">
-                   Home
-               </Typography>
-           </Link>
-        </li>
-        <li>
-            <Link to='/info/about-us'>
-                <Typography variant="h6" component="span">
-                    About
-                </Typography>
-            </Link>
-        </li>
-        <li>
-            <Link to='/info/terms-and-conditions'>
-                <Typography variant="h6" component="span">
-                    Terms
-                </Typography>
-            </Link>
-        </li>
-    </ul>);
+        <List className='main-nav m-0'>
+            {props.menuLinks.map((x, index) => (
+                <ListItem component={Link} to={x.path}  key={x.title} onClick={props.onMenuItemClicked}>
+                    <ListItemText primary={x.title}  />
+                </ListItem>
+            ))}
+    </List>);
 }

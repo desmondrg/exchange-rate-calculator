@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "author": "Desmond Rgwaringesu",
   "private": true,
+  "engines": {
+    "node": "14.x.x",
+    "yarn": "1.22.x",
+    "npm": "7.8.0"
+  },
   "scripts": {
-    "start": "node dist/server/server.js",
+    "start": "node dist/server/server.js -e production",
     "build": "yarn run build:ui && yarn run build:api",
     "build:ui": "cross-env BUILD_PATH='./dist/browser' react-scripts build",
     "build:api": "ts-node prebuild.ts && tsc --build tsconfig.app.json && tscpaths -p tsconfig.app.json -s ./ -o ../../dist/server",
     "dev:ui": "react-scripts start",
-    "dev:api": "nodemon --exec \"ts-node -P tsconfig.server.json -r tsconfig-paths/register --transpile-only server/main.ts --cache true\"",
+    "dev:api": "nodemon --exec \"ts-node -P tsconfig.server.json -r tsconfig-paths/register --transpile-only server/main.ts -e development\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -21,6 +26,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.24.0",
     "bootstrap": "^5.1.3",
     "cross-env": "^7.0.3",
     "dateformat": "^5.0.2",
@@ -31,12 +37,16 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
     "rimraf": "~3.0.2",
+    "rxjs": "^7.4.0",
     "ts-node": "~10.4.0",
     "tsconfig-paths": "~3.11.0",
     "tscpaths": "~0.0.9",
     "tslib": "~2.3.1",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "cors": "~2.8.5",
+    "helmet": "~4.6.0",
+    "yargs": "~17.2.1"
   },
   "devDependencies": {
     "@types/dateformat": "^5.0.0",
@@ -46,6 +56,9 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/rimraf": "~3.0.2",
+    "@types/cors": "~2.8.12",
+    "@types/helmet": "~4.0.0",
+    "@types/yargs": "~17.0.5",
     "nodemon": "~2.0.15"
   },
   "eslintConfig": {

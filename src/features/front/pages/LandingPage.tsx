@@ -1,22 +1,49 @@
 import TripartatePageLayout from '../../../shared/components/layouts/TripartatePageLayout';
 import CurrencySelectInput from '../../../shared/components/input/CurrencySelectInput';
-import {currencies} from '../../../core/data/AppSeedingSource';
-import {ICurrency, IRateConversionResult} from '../../../core/data/DataTypes';
-import {useState} from 'react';
+// import {currencies} from '../../../core/data/AppSeedingSource';
+import {useEffect, useState} from 'react';
 import SwapButton from '../../../shared/components/buttons/SwapButton';
 import {InputAdornment, TextField, Typography} from '@mui/material';
 import ConvertButtonRow from '../../../shared/components/buttons/ConvertButtonRow';
 import {appConstants} from '../../../constants';
 import dateFormat from "dateformat";
+import {ICurrency, IRateConversionResult} from '../../../common/common-models';
+import heroImageUrl from "../../../assets/img/bg/main-hero-background.jpg";
+import {appDataService} from '../../../core/services/app-data.service';
 
+/**
+ * The landing Page Component Used to render the Rate Converter
+ */
 export default function LandingPage()
 {
+    // all states are initialized only one during the initial rendering of the component
     const [amount, setAmount] = useState(0.00);
     const [conversionResult, setConversionResult] = useState({} as IRateConversionResult);
 
+    const [allCurrencies, setAllCurrencies] = useState([] as ICurrency[]);
     const [sourceCurrency, setSourceCurrency] = useState({} as ICurrency);
     const [targetCurrency, setTargetCurrency] = useState({} as ICurrency);
     const [matcherOfAmountInput, setMatcherOfAmountInput] = useState({isValid: true, errorMessage: ''});
+
+
+    // Use effect will be called once during rendering of the
+    // component because an empty array was passed in
+    // as the last parameter
+    useEffect(() => {
+
+        console.log(`use effect called!!`);
+        // get the currency data from the Node.js REST API
+        // that is servicing this current REACT APP
+        // see folder server/**/* for code related to the
+        // respective API
+        appDataService.getCurrencies().subscribe(data => {
+
+            console.log(`got currency data ${JSON.stringify(data, null, 2)}`);
+            setAllCurrencies(data);
+
+        });
+
+    }, []);
 
     // function validateInputAmount(input: string)
     // {
@@ -101,10 +128,13 @@ export default function LandingPage()
     }
 
 
-    return (<TripartatePageLayout heroImageUrl={require('../../../assets/img/bg/main-hero-background.jpg')}>
+    return (<TripartatePageLayout
+            heroImageUrl={heroImageUrl}
+            heroTitle='Shumba Money Rate Exchange Calculator'
+            heroSubtitle='Check Local Foreign Currency Exchange Rates'>
            <div className='row w-100'>
                <div className='col-12 w-100'>
-                   <div className='row w-100'>
+                   <div className='row w-100 m-0'>
                        <div className='col-md-3 p-2'>
                            <TextField
                                id="amount"
@@ -124,7 +154,7 @@ export default function LandingPage()
                        <div className='col-md-4 p-2'>
                            <CurrencySelectInput
                                sx={{width: '100%'}}
-                               currencies={currencies}
+                               currencies={allCurrencies}
                                labelId='from-currency-id'
                                labelTitle='From'
                                selectedCurrencyName={sourceCurrency.name ?? ''}
@@ -138,7 +168,7 @@ export default function LandingPage()
                        <div className='col-md-4 p-2'>
                            <CurrencySelectInput
                                sx={{width: '100%'}}
-                               currencies={currencies}
+                               currencies={allCurrencies}
                                labelId='to-currency-id'
                                labelTitle='To'
                                selectedCurrencyName={targetCurrency.name ?? ''}

@@ -4,11 +4,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import {ICurrency} from '../../../core/data/DataTypes';
 import {SxProps} from '@mui/system';
 import {Theme} from '@mui/material/styles';
 //@ts-ignore
 import ReactCountryFlag from 'react-country-flag'
+import {ICurrency} from '../../../common/common-models';
+
 
 interface Props
 {
@@ -74,15 +75,18 @@ export default function CurrencySelectInput(props: Props)
                        return <MenuItem key={x.code} value={x.name}>
                            <div className='row'>
                                <div className='col-2'>
+                                   {x.countryCode &&
                                    <ReactCountryFlag
                                        countryCode={x.countryCode}
                                        svg
                                        style={{
                                            width: '2em',
                                            height: '2em',
+                                           borderRadius: '0.5em'
                                        }}
                                        title={x.countryCode}
                                    />
+                                   }
                                </div>
                                <div className='col-8'>
                                    <span>{x.code} - {x.name}</span>

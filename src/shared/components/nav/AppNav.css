@@ -1,7 +1,9 @@
 
 .main-nav
 {
-
+  display: flex;
+  flex-direction: row;
+  padding: 0;
 }
 
 .main-nav li
