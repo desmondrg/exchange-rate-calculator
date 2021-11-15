@@ -7,6 +7,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import {corsOptions} from './config/cors-config';
 import compression from 'compression';
+import {cspConfig} from './config/csp-config';
 
 const app = express();
 
@@ -20,7 +21,8 @@ if(process.env.NODE_ENV === 'development')
 
     // only allow resource sharing with whitelisted clients when in production
     app.use(cors(corsOptions));
-    app.use(helmet());
+    app.use(helmet({contentSecurityPolicy: cspConfig}));
+
 }
 
 // compress served files to speed page loading
