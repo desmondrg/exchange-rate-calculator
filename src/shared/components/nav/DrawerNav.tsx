@@ -1,7 +1,5 @@
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, useMediaQuery} from '@mui/material';
 // import AppNav from './AppNav';
-import InboxIcon from '@mui/icons-material/Inbox';
-import MailIcon from '@mui/icons-material/Mail';
 // import useMediaQuery from '@mui/material/useMediaQuery';
 import {Link} from 'react-router-dom';
 import {IMenuLinkItem} from '../../../core/data/app-data-models';
@@ -36,7 +34,7 @@ export function DrawerNav(props: Props)
                 {props.menuLinks.map((x, index) => (
                     <ListItem button component={Link} to={x.path} key={x.title} onClick={props.onMenuItemClicked}>
                         <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            {x.icon}
                         </ListItemIcon>
                         <ListItemText primary={x.title} />
                     </ListItem>

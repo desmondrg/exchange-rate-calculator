@@ -3,6 +3,8 @@
  * Currency information modeling
  * real life currencies
  */
+import React from 'react';
+
 export interface ICurrency
 {
     name: string;
@@ -51,6 +53,7 @@ export interface IRateConversionResult
  */
 export interface IMenuLinkItem
 {
+    icon: React.ReactNode;
     title: string;
     path: string;
 }
