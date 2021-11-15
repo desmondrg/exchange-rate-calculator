@@ -2,6 +2,8 @@ import {Observable} from 'rxjs';
 import {appAxios} from './app-axios.service';
 import {ICurrency} from '../../common/common-models';
 import {UIDataMaven} from '../../common/common-mavens';
+import {Subject} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 /**
  *  A Service that uses axios internally to fetch data
@@ -9,6 +11,9 @@ import {UIDataMaven} from '../../common/common-mavens';
  */
 export class AppDataService extends UIDataMaven
 {
+
+    subjOnCurrenciesChanged = new Subject<ICurrency[]>();
+
     /**
      * Fetches currencies from the REST API Serving this Application
      */
@@ -19,7 +24,12 @@ export class AppDataService extends UIDataMaven
         // apiBaseURL that will be passed in to the
         // constructor of AppDataService when
         // it is instantiated
-       return this.get<ICurrency[]>('currencies');
+       return this.get<ICurrency[]>('currencies').pipe(tap( data => {
+
+           // alert all listners of the subject that data has been fetched
+           this.subjOnCurrenciesChanged.next(data);
+
+       }));
     }
 }
 

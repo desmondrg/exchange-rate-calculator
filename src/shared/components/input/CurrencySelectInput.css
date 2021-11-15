@@ -1,0 +1,9 @@
+.option-row
+{
+  cursor: pointer;
+}
+
+.option-row:hover
+{
+  background: aliceblue;
+}

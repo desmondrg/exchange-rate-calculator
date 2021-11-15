@@ -37,6 +37,8 @@ export interface IRateConversionResult
 {
     sourceAmount: number,
     convertedAmount: number,
+    convertedAmountPrefix: string,
+    convertedAmountSuffix: string,
     sourceCurrency: ICrossRateCurrency,
     targetCurrency: ICrossRateCurrency
 }

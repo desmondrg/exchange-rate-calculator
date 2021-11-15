@@ -33,7 +33,7 @@ export default function TripartitePageLayout(props: Props)
                 </div>
 
             </div>
-            <Box className='main main-raised page-middle' sx={{minHeight: '45vh'}}>
+            <Box className='main main-raised page-middle' sx={{minHeight: '35vh'}}>
                 <Card sx={{width: '90%', padding: '20px', minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: '33%'}}>
                     {props.children}
                 </Card>

@@ -1,5 +1,6 @@
 {
- "name": "App",
+ "short_name": "Shumba Rate Cal",
+ "name": "Shumba Rate Exchange Calculator",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
@@ -37,5 +38,9 @@
    "type": "image\/png",
    "density": "4.0"
   }
- ]
+ ],
+ "start_url": ".",
+ "display": "standalone",
+ "theme_color": "#00ff00",
+ "background_color": "#ff0000"
 }

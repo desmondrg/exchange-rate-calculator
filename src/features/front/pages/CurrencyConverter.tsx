@@ -9,6 +9,8 @@ import {appConstants} from '../../../constants';
 import {SxProps} from '@mui/system';
 import {Theme} from '@mui/material/styles';
 import {appDataService} from '../../../core/services/app-data.service';
+import {currencies} from '../../../core/data/AppSeedingSource';
+import './CurrencyConverter.css';
 
 interface Props
 {
@@ -37,7 +39,7 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
      * note: this function also initializes the state of the component
      * @param props the properties to pass into a converter instantiated by embedding via HTML
      */
-    constructor(props)
+    constructor(props: Props)
     {
         super(props);
 
@@ -63,7 +65,7 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
 
             console.log(`got currency data from server : ${JSON.stringify(data, null, 2)}`);
 
-            this.setState({allCurrencies: data});
+            this.setState({allCurrencies: currencies});
         });
     }
 
@@ -161,9 +163,31 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
 
             const convertedAmount = this.state.amount * sourceConversionRate;
 
+
+            // split the amount into two strings
+            // a prefix  to represent standard representation of money i.e 2pd
+            // a suffix to represent all the other figures
+            const convertedAmountStr = `${convertedAmount}`;
+
+            let indexOfPeriod = convertedAmountStr.indexOf('.');
+
+            let convertedAmountPrefix = '';
+            let convertedAmountSuffix = '';
+
+           if(indexOfPeriod !== -1) // if there is a period
+           {
+                convertedAmountPrefix = convertedAmountStr?.substr(0,indexOfPeriod + 3);
+                convertedAmountSuffix = convertedAmountStr?.substr(indexOfPeriod + 3,convertedAmountStr?.length - 1);
+           }else{ // there is no period in the amount thus do not split the amount
+               convertedAmountPrefix = convertedAmountStr;
+           }
+
+
             const convResult: IRateConversionResult = {
                 sourceAmount: this.state.amount,
                 convertedAmount,
+                convertedAmountPrefix,
+                convertedAmountSuffix,
                 sourceCurrency: {...this.state.sourceCurrency, crossRate: sourceConversionRate },
                 targetCurrency: {...this.state.targetCurrency, crossRate: destConversionRate }
             };
@@ -174,9 +198,30 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
 
 
     /**
+     * Clears the currently selected source currency thereby disabling all
+     * conversion event listeners (such as buttons) and displays
+     */
+    private onClearSourceCurrency()
+    {
+        this.setState({sourceCurrency: {} as ICurrency});
+    }
+
+    /**
+     * Clears the currently selected target currency thereby disabling all
+     * conversion event listeners (such as buttons) and displays
+     */
+    private onClearTargetCurrency()
+    {
+        this.setState({targetCurrency: {} as ICurrency});
+    }
+
+
+    /**
      * Renders the Converter Component
      */
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | Iterable<React.ReactNode> | React.ReactPortal | boolean | null | undefined {
+
+
 
         return (<Box className='row w-100' sx={{...this.props?.sx}}>
             <div className='col-12 w-100'>
@@ -186,6 +231,7 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
                             id="amount"
                             label="Amount"
                             variant="outlined"
+                            defaultValue={0.00}
                             error={!this.state.matcherOfAmountInput?.isValid} helperText={!this.state.matcherOfAmountInput?.isValid ? this.state.matcherOfAmountInput?.errorMessage : ''}
                             sx={{width: '100%'}}
                             InputProps={{
@@ -195,44 +241,55 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
                                     </InputAdornment>
                                 ),
                             }}
-                            onChange={this.onAmountInputChanged} />
+                            onChange={event => this.onAmountInputChanged(event)} />
                     </div>
                     <div className='col-md-4 p-2'>
                         <CurrencySelectInput
                             sx={{width: '100%'}}
-                            currencies={this.state.allCurrencies}
+                            currencies={this.state.allCurrencies ? this.state.allCurrencies : []}
                             labelId='from-currency-id'
                             labelTitle='From'
-                            selectedCurrencyName={this.state.sourceCurrency?.name ?? ''}
-                            onSelectCurrency={this.onSelectSourceCurrency}/>
+                            selectedCountryCode={this.state.sourceCurrency?.countryCode ?? ''}
+                            onClearCurrency={() => this.onClearSourceCurrency()}
+                            onSelectCurrency={currency => this.onSelectSourceCurrency(currency)}/>
                     </div>
                     <div className='col-md-1  c-flex p-2'>
                         <SwapButton
                             sx={{width: '60px', height: '60px'}}
-                            onSwapClicked={this.onSwapCurrenciesSelected}/>
+                            onSwapClicked={() => this.onSwapCurrenciesSelected()}/>
                     </div>
                     <div className='col-md-4 p-2'>
                         <CurrencySelectInput
                             sx={{width: '100%'}}
-                            currencies={this.state.allCurrencies}
+                            currencies={this.state.allCurrencies ? this.state.allCurrencies : []}
                             labelId='to-currency-id'
                             labelTitle='To'
-                            selectedCurrencyName={this.state.targetCurrency?.name ?? ''}
-                            onSelectCurrency={this.onSelectTargetCurrency}/>
+                            selectedCountryCode={this.state.targetCurrency?.countryCode ?? ''}
+                            onClearCurrency={() => this.onClearTargetCurrency()}
+                            onSelectCurrency={currency => this.onSelectTargetCurrency(currency)}/>
                     </div>
                 </div>
 
                 {this.state.isInitialConvert && <ConvertButtonRow
                     isDisabled={!this.state.matcherOfAmountInput?.isValid || !this.state.sourceCurrency?.name || !this.state.targetCurrency?.name}
                     title='Convert'
-                    onClick={this.onConvertCurrenciesClicked} />}
+                    onClick={() => this.onConvertCurrenciesClicked()} />}
 
-                {this.state.conversionResult && this.state.conversionResult?.sourceCurrency?.name && this.state.conversionResult.targetCurrency?.name &&
-                <div className='row w-100'>
+
+                {this.state.conversionResult && this.state.sourceCurrency?.name && this.state.targetCurrency?.name && this.state.conversionResult?.sourceCurrency?.name && this.state.conversionResult.targetCurrency?.name &&
+
+                    <div className='row w-100'>
                     <div className='col-md-6'>
                         <div className='row mb-2'>
                             <Typography variant='h6'>{this.state.conversionResult?.sourceAmount} {this.state.conversionResult?.sourceCurrency?.namePlural}  = </Typography>
-                            <Typography variant='h5'>{this.state.conversionResult?.convertedAmount} {this.state.conversionResult?.targetCurrency?.namePlural}</Typography>
+                            <Box sx={{display: 'flex'}}>
+                                <Box sx={{display: 'flex', marginRight: '5px'}}>
+                                <Typography variant='h5'>{this.state.conversionResult?.convertedAmountPrefix}</Typography>
+                                <Typography variant='h5' sx={{color: 'lightgray'}}>{this.state.conversionResult?.convertedAmountSuffix}</Typography>
+                                </Box>
+                                <Typography variant='h5'>{this.state.conversionResult?.targetCurrency?.namePlural}</Typography>
+                            </Box>
+
                         </div>
                         <div className='row'>
                             <Typography variant='body2'>1 {this.state.conversionResult?.sourceCurrency?.code} = {this.state.conversionResult?.sourceCurrency?.crossRate} {this.state.conversionResult?.targetCurrency?.code}</Typography>
@@ -246,4 +303,5 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
             </div>
         </Box>);
     }
+
 }
