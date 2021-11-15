@@ -6,6 +6,7 @@ import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import {corsOptions} from './config/cors-config';
+import compression from 'compression';
 
 const app = express();
 
@@ -21,6 +22,9 @@ if(process.env.NODE_ENV === 'development')
     app.use(cors(corsOptions));
     app.use(helmet());
 }
+
+// compress served files to speed page loading
+app.use(compression());
 
 // Serve static files from the React app
 app.use(express.static(path.join(process.cwd(), 'dist/browser')));
