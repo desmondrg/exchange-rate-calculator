@@ -2,7 +2,11 @@ import TripartitePageLayout from '../../../shared/components/layouts/TripartiteP
 import {Typography} from '@mui/material';
 import heroImageUrl from "../../../assets/img/bg/main-hero-background.jpg";
 
-
+/**
+ * A simple page to display information about the application. The page
+ * displays information such as the features of the app and the author of
+ * the app.
+ */
 export default function AboutUsPage()
 {
     return (<TripartitePageLayout heroImageUrl={heroImageUrl} heroSubtitle='Trust the Pride' heroSubtitleSx={{fontStyle: 'italic'}}>

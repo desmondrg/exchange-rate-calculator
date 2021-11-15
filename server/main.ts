@@ -1,8 +1,6 @@
 // warning: load the environment before doing anything else
 import {loadEnv} from './shared/load-env';
 loadEnv.load();
-
-import {apiV1Router} from './core/api/v1';
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
@@ -26,10 +24,6 @@ if(process.env.NODE_ENV === 'development')
 
 // Serve static files from the React app
 app.use(express.static(path.join(process.cwd(), 'dist/browser')));
-
-//set up the api routes
-app.use('/api/v1', apiV1Router);
-
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

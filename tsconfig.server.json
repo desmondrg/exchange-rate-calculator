@@ -6,7 +6,9 @@
     "typeRoots": ["./server/types/index"],
     "types": ["node", "jquery", "bootstrap"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noEmit": false
   },
   "files": ["server.ts"]
 }

@@ -1,4 +1,4 @@
-import {ICurrency} from '../../common/common-models';
+import {ICurrency} from './app-data-models';
 
 export const currencies: ICurrency[] = [
 

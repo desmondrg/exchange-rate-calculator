@@ -2,6 +2,9 @@ import TripartitePageLayout from '../../../shared/components/layouts/TripartiteP
 import {Typography} from '@mui/material';
 import heroImageUrl from "../../../assets/img/bg/main-hero-background.jpg";
 
+/**
+ * A simple page with a disclaimer message
+ */
 export default function TermsAndConditionsPage()
 {
     return (<TripartitePageLayout heroImageUrl={heroImageUrl} heroSubtitle='Trust the Pride' heroSubtitleSx={{fontStyle: 'italic'}}>

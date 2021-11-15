@@ -8,10 +8,10 @@ import {SxProps} from '@mui/system';
 import {Theme} from '@mui/material/styles';
 //@ts-ignore
 import ReactCountryFlag from 'react-country-flag'
-import {ICurrency} from '../../../common/common-models';
 import {Autocomplete, AutocompleteChangeReason, InputAdornment, TextField} from '@mui/material';
 import {SyntheticEvent} from 'react';
 import './CurrencySelectInput.css';
+import {ICurrency} from '../../../core/data/app-data-models';
 
 interface Props
 {

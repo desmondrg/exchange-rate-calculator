@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {ICurrency, IRateConversionResult} from '../../../common/common-models';
 import {Box, InputAdornment, TextField, Typography} from '@mui/material';
 import CurrencySelectInput from '../../../shared/components/input/CurrencySelectInput';
 import SwapButton from '../../../shared/components/buttons/SwapButton';
@@ -8,9 +7,9 @@ import dateFormat from 'dateformat';
 import {appConstants} from '../../../constants';
 import {SxProps} from '@mui/system';
 import {Theme} from '@mui/material/styles';
-import {appDataService} from '../../../core/services/app-data.service';
-import {currencies} from '../../../core/data/AppSeedingSource';
+import {currencies} from '../../../core/data/app-seeding-source';
 import './CurrencyConverter.css';
+import {ICurrency, IRateConversionResult} from '../../../core/data/app-data-models';
 
 interface Props
 {
@@ -31,6 +30,9 @@ interface ConverterState
     matcherOfAmountInput?: {isValid: boolean, errorMessage: string}
 }
 
+/**
+ * The Converter that powers all cross rate currency conversions in this app
+ */
 export default class CurrencyConverter extends React.Component<Props, ConverterState>
 {
 
@@ -57,18 +59,21 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
 
 
     /**
-     * Fetches Currencies from the API When the Converter Component has been mounted
+     * Used to setup data to be used by the converter. This data
+     * may have been fetched from an API or a local file that
+     * exports a json object
      */
     componentDidMount(): void
     {
-        appDataService.getCurrencies().subscribe(data => {
+        this.setState({allCurrencies: currencies});
 
-            console.log(`got currency data from server : ${JSON.stringify(data, null, 2)}`);
-
-            this.setState({allCurrencies: currencies});
-        });
     }
 
+    /**
+     * Updates the source currency of the converter with the
+     * currency passed as a parameter
+     * @param currency The currency to set as the source currency on the local state of the converter
+     */
     onSelectSourceCurrency(currency: ICurrency)
     {
         console.log(`From currency selected ${JSON.stringify(currency, null, 2)}`);
@@ -77,7 +82,11 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
 
     }
 
-
+    /**
+     * Updates the target currency of the converter with the
+     * currency passed as a parameter
+     * @param currency The currency to set as the target currency on the local state of the converter
+     */
     onSelectTargetCurrency(currency: ICurrency)
     {
         console.log(`To currency selected ${JSON.stringify(currency, null, 2)}`);
@@ -86,6 +95,14 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
     }
 
 
+    /**
+     * Swaps the currently selected source and target currencies if and only if
+     * the converter currently has a valid source and target currency set on its local
+     * state. A source or target currency is deemed valid if its name is set. Non valid
+     * here can be an empty default object {} or null. This app uses the empty object {}
+     * as a default object and this pattern should be maintained to avoid any bugs as each
+     * piece of code in this app expects this.
+     */
     onSwapCurrenciesSelected()
     {
         console.log(`Swap currencies clicked!!!`)
@@ -120,7 +137,8 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
      */
     autoRunConversionIfPossible()
     {
-        if(this.state.sourceCurrency?.name && this.state.targetCurrency?.name)
+        // only run a conversion if this is not the initial run and the amount is valid as well as if the source and target currencies have been set
+        if(!this.state.isInitialConvert && this.state.matcherOfAmountInput?.isValid && this.state.sourceCurrency?.name && this.state.targetCurrency?.name)
         {
             // the convert button disappears after the first conversion therefore automatically call the convert fxn when
             // a user clicks the swap button
@@ -133,25 +151,71 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
         }
     }
 
+    /**
+     * Validates the amount entered in the input form of the converter
+     * to ensure that it follows the basic pattern of the standard numerical
+     * representation of most currencies. This numerical representation must follow
+     * these rules : commas, spaces, and the period are optional. However 2 decimal places
+     * after the comma are mandatory and any other digit in exess of this makes the input
+     * invalid
+     * @param text The numerical amount to validate
+     */
+    validateCurrencyInput(text: string)
+    {
+        text = `${text}`; // make a copy of the text
+
+        // remove spaces
+        text = text?.replace(' ', '');
+
+        // add the dollar symbol as it is required by the next line
+        text = `$${text}`;
+
+        // Decimal and commas optional but the $ symbol is required
+        // if we replace anything that matches but something else still remains, then the currency is invalid
+        return text?.replace(/(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/, '')?.length === 0;
+
+    }
+
+    /**
+     * Validates the input and updates the local
+     * state of the converter if the input amount is valid. If
+     * the input is not valid, the function then sets the local state
+     * of the error matcher as invalid thereby ensuring that the UI
+     * gets updated with a message to alert the user that the
+     * amount they entered is not a valid standard munerical representation
+     * format of money
+     * @param event The TextField Text change Intput event tethered to the amount input field
+     */
     onAmountInputChanged(event: any)
     {
-        const value = event.target.value;
+        const value = event.target.value as string;
         console.log(value);
 
         const numericValue = parseFloat(value);
         console.log(`The float is ${numericValue}`);
 
-        if(!numericValue)
+        if(this.validateCurrencyInput(value)) // the entered amount is valid
         {
             // setMatcherOfAmountInput({isValid: false, errorMessage: 'Invalid Amount'});
-        }
+            this.setState({
+                matcherOfAmountInput: {isValid: true, errorMessage: ''},
+                amount: numericValue
+            });
 
-        this.setState({
-            matcherOfAmountInput: {isValid: true, errorMessage: ''},
-            amount: numericValue
-        });
+            this.autoRunConversionIfPossible();
+        }
+        else{ // the entered amount is not valid
+            this.setState({
+                matcherOfAmountInput: {isValid: false, errorMessage: 'Please enter a valid amount'},
+                amount: numericValue
+            });
+        }
     }
 
+    /**
+     * The prime cross rate converter of the application. It converts one currency to another
+     * via their common value pegged to the US Dollar (cross rate conversion)
+     */
     onConvertCurrenciesClicked(): void
     {
 
@@ -167,6 +231,10 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
             // split the amount into two strings
             // a prefix  to represent standard representation of money i.e 2pd
             // a suffix to represent all the other figures
+            // splitting the result in this way is useful when
+            // displaying the conversion result with several decimal places
+            // other than the standard 2pd used to represent a numerical amount
+            // of money
             const convertedAmountStr = `${convertedAmount}`;
 
             let indexOfPeriod = convertedAmountStr.indexOf('.');
@@ -176,13 +244,17 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
 
            if(indexOfPeriod !== -1) // if there is a period
            {
+               // then split the result into two sets of digits in the form xxx.xx and xxxxxxxx
                 convertedAmountPrefix = convertedAmountStr?.substr(0,indexOfPeriod + 3);
                 convertedAmountSuffix = convertedAmountStr?.substr(indexOfPeriod + 3,convertedAmountStr?.length - 1);
-           }else{ // there is no period in the amount thus do not split the amount
+           }else{
+               // there is no period in the amount thus do not split the amount
                convertedAmountPrefix = convertedAmountStr;
            }
 
 
+           // hold onto all the conversion results so
+            // that the UI can be updated to display results
             const convResult: IRateConversionResult = {
                 sourceAmount: this.state.amount,
                 convertedAmount,
@@ -192,6 +264,8 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
                 targetCurrency: {...this.state.targetCurrency, crossRate: destConversionRate }
             };
 
+           // set the state with the results to trigger re-rendering of the UI so the user can view the conversion
+            // results
             this.setState({isInitialConvert: false, conversionResult: convResult});
         }
     }
@@ -276,7 +350,7 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
                     onClick={() => this.onConvertCurrenciesClicked()} />}
 
 
-                {this.state.conversionResult && this.state.sourceCurrency?.name && this.state.targetCurrency?.name && this.state.conversionResult?.sourceCurrency?.name && this.state.conversionResult.targetCurrency?.name &&
+                {this.state.matcherOfAmountInput?.isValid && this.state.conversionResult && this.state.sourceCurrency?.name && this.state.targetCurrency?.name && this.state.conversionResult?.sourceCurrency?.name && this.state.conversionResult.targetCurrency?.name &&
 
                     <div className='row w-100'>
                     <div className='col-md-6'>

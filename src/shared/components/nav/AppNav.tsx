@@ -1,8 +1,8 @@
 import './AppNav.css';
 import {Link} from 'react-router-dom';
 import * as React from 'react';
-import {IMenuLinkItem} from '../../../common/common-models';
 import {List, ListItem, ListItemText} from '@mui/material';
+import {IMenuLinkItem} from '../../../core/data/app-data-models';
 
 interface Props
 {

@@ -4,7 +4,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import MailIcon from '@mui/icons-material/Mail';
 // import useMediaQuery from '@mui/material/useMediaQuery';
 import {Link} from 'react-router-dom';
-import {IMenuLinkItem} from '../../../common/common-models';
+import {IMenuLinkItem} from '../../../core/data/app-data-models';
 
 interface Props
 {
