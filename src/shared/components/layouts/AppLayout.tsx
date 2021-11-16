@@ -103,7 +103,7 @@ export default function AppLayout(props: Props) {
         <React.Fragment>
             <CssBaseline />
             <HideOnScroll {...props}>
-                <Box sx={{ flexGrow: 1 }}>
+                <Box id='back-to-top-anchor' sx={{ flexGrow: 1 }}>
                     <AppBar position="absolute" style={{ background: 'transparent', boxShadow: 'none'}}>
 
                         <Toolbar>

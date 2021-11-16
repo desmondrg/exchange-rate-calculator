@@ -24,7 +24,7 @@ export default function TripartitePageLayout(props: Props)
     const isTabletOrMobile = isTablet || isMobile;
 
     return (
-        <div className='page'>
+        <Box className='page'>
             <Box className='page-header' sx={{height: '300px', backgroundImage: `url('${props.heroImageUrl}')`}}>
 
                 <Box className='w-100 c-flex' sx={{height: isTabletOrMobile ? '75%' : '100%'}}>
@@ -38,9 +38,9 @@ export default function TripartitePageLayout(props: Props)
                     {props.children}
                 </Card>
             </Box>
-            <div className='page-bottom'>
+            <Box className='page-bottom'>
 
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }

@@ -9,7 +9,7 @@ export default function AppFooter()
            Copyright &copy;{new Date().getFullYear()} all rights reserved
         </div>
         <div className='attribution'>
-            Site by <Link href={appConstants.author.website} sx={{textDecoration: 'none'}}>{appConstants.author.name}</Link>
+            Site by <Link href={appConstants.author.website} sx={{textDecoration: 'none'}} target='_blank'>{appConstants.author.name}</Link>
         </div>
     </div>);
 }
