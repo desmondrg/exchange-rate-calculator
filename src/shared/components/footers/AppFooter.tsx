@@ -1,5 +1,6 @@
 import {Link} from '@mui/material';
 import './AppFooter.css';
+import {appConstants} from '../../../constants';
 
 export default function AppFooter()
 {
@@ -8,7 +9,7 @@ export default function AppFooter()
            Copyright &copy;{new Date().getFullYear()} all rights reserved
         </div>
         <div className='attribution'>
-            Site by <Link href='https://zw.linkedin.com/in/desmond-rgwaringesu-83595798' sx={{textDecoration: 'none'}}>Desmond RG</Link>
+            Site by <Link href={appConstants.author.website} sx={{textDecoration: 'none'}}>{appConstants.author.name}</Link>
         </div>
     </div>);
 }

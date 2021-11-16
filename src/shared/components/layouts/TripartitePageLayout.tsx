@@ -25,16 +25,16 @@ export default function TripartitePageLayout(props: Props)
 
     return (
         <div className='page'>
-            <div className='page-header' style={{backgroundImage: `url('${props.heroImageUrl}')`}}>
+            <Box className='page-header' sx={{height: '300px', backgroundImage: `url('${props.heroImageUrl}')`}}>
 
-                <div className='w-100 h-75 c-flex'>
+                <Box className='w-100 c-flex' sx={{height: isTabletOrMobile ? '75%' : '100%'}}>
                    {props.heroTitle && <Typography variant='h1' color='white' sx={{ textAlign: 'center', fontSize: isTabletOrMobile ? '24px' : '34px', marginBottom: '0.5em', ...props?.heroTitleSx}}>{props.heroTitle}</Typography>}
                     {props.heroSubtitle && <Typography variant='h2' color='white' sx={{textAlign: 'center', fontSize: isTabletOrMobile ? '16px' : '24px', ...props?.heroSubtitleSx}}>{props.heroSubtitle}</Typography>}
-                </div>
+                </Box>
 
-            </div>
-            <Box className='main main-raised page-middle' sx={{minHeight: '35vh'}}>
-                <Card sx={{width: '90%', padding: '20px', minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: '33%'}}>
+            </Box>
+            <Box className='main main-raised page-middle'>
+                <Card sx={{marginTop: isTabletOrMobile ? '-145px' : '-90px', width: '90%', padding: '20px', minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
                     {props.children}
                 </Card>
             </Box>
