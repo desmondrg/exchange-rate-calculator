@@ -59,8 +59,6 @@ npm install
 
 The app can be run locally using the following command:  
   
-Run the `jekyll serve` command to test your app.
-
 ```console  
 yarn run dev:ui
 ```
