@@ -167,6 +167,15 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
     {
         text = `${text}`; // make a copy of the text
 
+        // if text ends with a period, simply add a zero
+        // otherwise validation will fail
+        // causing the user to be confused
+        // since it will appear as if a period is not a valid character
+        if(text.match(/\.$/))
+        {
+            text += '0';
+        }
+
         // remove spaces
         text = text?.replace(/'\s'/g, '');
 
