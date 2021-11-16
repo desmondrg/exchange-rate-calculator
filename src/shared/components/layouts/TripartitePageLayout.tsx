@@ -4,6 +4,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {SxProps} from '@mui/system';
 import {Theme} from '@mui/material/styles';
 
+/**
+ * The Properties to feed into the Tripartite Page Layout
+ * during rendering
+ */
 interface Props
 {
     children: React.ReactElement;
@@ -15,6 +19,12 @@ interface Props
 
 }
 
+/**
+ * Three section page layout with a central section that
+ * bleeds into the top section
+ * @param props Properties to style the Hero of the page as well as the children to feed into the layout
+ * @constructor
+ */
 export default function TripartitePageLayout(props: Props)
 {
     const isTablet = useMediaQuery('(max-width:768px)');

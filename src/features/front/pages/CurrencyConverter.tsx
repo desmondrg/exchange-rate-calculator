@@ -11,6 +11,10 @@ import {currencies} from '../../../core/data/app-seeding-source';
 import './CurrencyConverter.css';
 import {ICurrency, IRateConversionResult} from '../../../core/data/app-data-models';
 
+/**
+ * The Properties to feed into the Curency Select Input
+ * during rendering
+ */
 interface Props
 {
    sx?: SxProps<Theme>;
@@ -31,7 +35,8 @@ interface ConverterState
 }
 
 /**
- * The Converter that powers all cross rate currency conversions in this app
+ * The Converter that powers all cross rate currency conversions in this app. The converter
+ * uses the class component syntax for easier state management
  */
 export default class CurrencyConverter extends React.Component<Props, ConverterState>
 {

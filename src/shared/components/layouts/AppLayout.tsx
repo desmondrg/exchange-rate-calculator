@@ -31,7 +31,7 @@ interface Props {
 }
 
 function HideOnScroll(props: Props) {
-    const { children, window } = props;
+    const { children } = props;
     const trigger = useScrollTrigger({threshold: 5});
 
     return (

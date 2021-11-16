@@ -2,6 +2,9 @@ import {Link} from '@mui/material';
 import './AppFooter.css';
 import {appConstants} from '../../../constants';
 
+/**
+ * Main footer of the app with copyright and attribution info
+ */
 export default function AppFooter()
 {
     return (<div className='footer'>

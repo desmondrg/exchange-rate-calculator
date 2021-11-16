@@ -13,6 +13,10 @@ import {SyntheticEvent} from 'react';
 import './CurrencySelectInput.css';
 import {ICurrency} from '../../../core/data/app-data-models';
 
+/**
+ * The Properties to feed into the Currency Select Input
+ * during rendering
+ */
 interface Props
 {
     labelTitle: string;
@@ -26,12 +30,20 @@ interface Props
 
 }
 
+/**
+ * The state of the Currency Select Input
+ */
 interface CurrencySelectInputState
 {
     localCurrencies: ICurrency[];
     currencyToSelect: ICurrency;
 }
 
+/**
+ * The input for selecting a single currency from a list of currencies
+ * supplied to a user. The converter
+ * uses the class component syntax for easier state management
+ */
 export default class CurrencySelectInput extends React.Component<Props, CurrencySelectInputState>
 {
     constructor(props: Props)
@@ -44,6 +56,7 @@ export default class CurrencySelectInput extends React.Component<Props, Currency
                 localCurrencies: []
             };
     }
+
 
     onOptionSelected(event: SyntheticEvent<Element, Event>,
                      value: ICurrency | null,
@@ -173,42 +186,3 @@ export default class CurrencySelectInput extends React.Component<Props, Currency
         );
     }
 }
-
-
-// <FormControl fullWidth>
-//     <InputLabel id={this.props.labelId + '-label'} >{this.props.labelTitle}</InputLabel>
-//     <Select
-//         labelId={this.props.labelId + '-label'}
-//         id={this.props.labelId}
-//         value={this.props.selectedCurrencyName}
-//         defaultValue=""
-//         label={this.props.labelTitle}
-//         onChange={event => this.onOptionSelected(event, value, reason)}
-//
-//     >
-//         {this.props.currencies?.map(x => {
-//             console.log(x.name);
-//             return <MenuItem key={x.code} value={x.name}>
-//                 <div className='row'>
-//                     <div className='col-2'>
-//                         {x.countryCode &&
-//                         <ReactCountryFlag
-//                             countryCode={x.countryCode}
-//                             svg
-//                             style={{
-//                                 width: '2em',
-//                                 height: '2em',
-//                                 borderRadius: '0.5em'
-//                             }}
-//                             title={x.countryCode}
-//                         />
-//                         }
-//                     </div>
-//                     <div className='col-8'>
-//                         <span>{x.code} - {x.name}</span>
-//                     </div>
-//                 </div>
-//             </MenuItem>
-//         })};
-//     </Select>
-// </FormControl>
