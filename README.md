@@ -63,9 +63,10 @@ The app can be run locally using the following command:
 yarn run dev:ui
 ```
 ## 2. Deployment  
-  The project is already configured to build and run on Heroku. You can deploy your version of the project on heroku by
+  The project is already configured to build and run on Heroku. You can deploy your version of the project on Heroku by
  - Creating a remote repository on github and then pushing your cloned copy of the project to this repository
  - Connecting the remote repositoy to your Heroku account and then configuring automatic deploys
+ 
 **Note:** Extra steps are necessary inorder to deploy the app on other P.A.A.S providers such as [Google App Engine][googleApp] and [Amazon's Elastic Bean Stalk][elasticBean]
   
 
