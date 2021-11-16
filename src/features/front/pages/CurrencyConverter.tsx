@@ -53,7 +53,7 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
         // set the initial state
         this.state = {
             isInitialConvert: true,
-            amount: 0.0,
+            amount: 1.00,
             conversionResult: {} as IRateConversionResult,
             allCurrencies: [],
             sourceCurrency: {} as ICurrency,
@@ -310,7 +310,7 @@ export default class CurrencyConverter extends React.Component<Props, ConverterS
                             id="amount"
                             label="Amount"
                             variant="outlined"
-                            defaultValue={0.00}
+                            defaultValue={this.state.amount}
                             error={!this.state.matcherOfAmountInput?.isValid} helperText={!this.state.matcherOfAmountInput?.isValid ? this.state.matcherOfAmountInput?.errorMessage : ''}
                             sx={{width: '100%'}}
                             InputProps={{
