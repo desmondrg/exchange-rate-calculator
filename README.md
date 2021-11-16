@@ -16,29 +16,23 @@ Shumba Money Exchange Rate Calculator is a React Web App by [Desmond Rgwaringesu
 
 ## 1. Installation  
   
-These instructions will get a copy of the project up and running on your  
-local machine for exhibition or further development purposes. [See deployment][deploy]  for notes on how to deploy the project on a live system such as Heroku.  
+These instructions will get a copy of the project up and running on your local machine for exhibition or further development purposes. [See deployment][deploy]  for notes on how to deploy the project on a live system such as Heroku.  
   
 ### 1.1 Prerequisites  
   
-The following prerequisites need to be installed on your machine for this to  
-work.  
+The following prerequisites need to be installed on your machine for this to work.  
   
  1. [Node][nodejs] version 14.x.x
  2. [Yarn][yarn] version  1.22.x
 
 ### 1.2 Clone the Repository  
   
-The first step is to clone this repository to a location on your computer. For  
-this example, we will assume that your default install location is a folder  
-called `exchange-rate-calculator`.  
+The first step is to clone this repository to a location on your computer. For this example, we will assume that your default install location is a folder called `exchange-rate-calculator`.  
   
 ```console  
 git clone https://github.com/desmondrg/exchange-rate-calculator.git  
 ```
- The above command will checkout the source code to the folder  
-`exchange-rate-calculator/`. You can change the default location by specifying  
-a folder name in the checkout command with:  
+ The above command will checkout the source code to the folder `exchange-rate-calculator/`. You can change the default location by specifying a folder name in the checkout command with:  
   
 ```console  
 git clone https://github.com/desmondrg/exchange-rate-calculator.git custom-folder 
@@ -62,6 +56,8 @@ The app can be run locally using the following command:
 ```console  
 yarn run dev:ui
 ```
+Running the command above should open a browser window and automatically load the app. If a browser window is not automatically opened, simply navigate to http://localhost:3000 after making sure that the build process is complete and that the process is still running.
+
 ## 2. Deployment  
   The project is already configured to build and run on Heroku. You can deploy your version of the project on Heroku by
  - Creating a remote repository on github and then pushing your cloned copy of the project to this repository
