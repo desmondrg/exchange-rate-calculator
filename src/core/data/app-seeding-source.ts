@@ -5,13 +5,13 @@ export const currencies: ICurrency[] = [
     {
         name: 'Zimbabwean Dollar',
         namePlural: 'Zimbabwean Dollars',
-        code: 'ZWL',
+        code: 'ZWD',
         countryCode: 'ZW',
         symbol: '$',
         decimalDigits: 2,
-        rateToUsd: 0.00276319,
-        dateCreated: '2021-11-14T03:52:47Z',
-        dateUpdated: '2021-11-14T03:52:47Z'
+        rateToUsd: 0.0027631943,
+        dateCreated: '2021-11-16T05:12:52Z',
+        dateUpdated: '2021-11-16T05:12:52Z'
     },
     {
         name: 'South African Rand',
@@ -20,9 +20,9 @@ export const currencies: ICurrency[] = [
         countryCode: 'ZA',
         symbol: 'R',
         decimalDigits: 2,
-        rateToUsd: 0.0652105,
-        dateCreated: '2021-11-14T03:52:47Z',
-        dateUpdated: '2021-11-14T03:52:47Z'
+        rateToUsd: 0.065753472,
+        dateCreated: '2021-11-16T05:12:52Z',
+        dateUpdated: '2021-11-16T05:12:52Z'
     },
     {
         name: 'British Pound Sterling',
@@ -31,9 +31,9 @@ export const currencies: ICurrency[] = [
         countryCode: 'GB',
         symbol: '£',
         decimalDigits: 2,
-        rateToUsd: 1.34146,
-        dateCreated: '2021-11-14T03:52:47Z',
-        dateUpdated: '2021-11-14T03:52:47Z'
+        rateToUsd: 1.3429171,
+        dateCreated: '2021-11-16T05:12:52Z',
+        dateUpdated: '2021-11-16T05:12:52Z'
     },
     {
         name: 'Botswanan Pula',
@@ -42,9 +42,9 @@ export const currencies: ICurrency[] = [
         countryCode: 'BW',
         symbol: 'P',
         decimalDigits: 2,
-        rateToUsd: 0.0881878,
-        dateCreated: '2021-11-14T03:52:47Z',
-        dateUpdated: '2021-11-14T03:52:47Z'
+        rateToUsd: 0.087526394,
+        dateCreated: '2021-11-16T05:12:52Z',
+        dateUpdated: '2021-11-16T05:12:52Z'
     }
     
 ];
