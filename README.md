@@ -17,7 +17,7 @@ Shumba Money Exchange Rate Calculator is a React Web App by [Desmond Rgwaringesu
 ## 1. Installation  
   
 These instructions will get a copy of the project up and running on your  
-local machine for development and testing purposes. [See deployment][deploy]  for notes on how to deploy the project on a live system such as Heroku.  
+local machine for exhibition or further development purposes. [See deployment][deploy]  for notes on how to deploy the project on a live system such as Heroku.  
   
 ### 1.1 Prerequisites  
   
