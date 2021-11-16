@@ -1,5 +1,5 @@
 import TripartitePageLayout from '../../../shared/components/layouts/TripartitePageLayout';
-import {Link, List, ListItem, Typography} from '@mui/material';
+import {Link, Typography} from '@mui/material';
 import heroImageUrl from "../../../assets/img/bg/main-hero-background.jpg";
 import {appConstants} from '../../../constants';
 
