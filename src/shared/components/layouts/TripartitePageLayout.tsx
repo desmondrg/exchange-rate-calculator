@@ -44,7 +44,7 @@ export default function TripartitePageLayout(props: Props)
 
             </Box>
             <Box className='main main-raised page-middle'>
-                <Card sx={{marginTop: isTabletOrMobile ? '-135px' : '-90px', width: '90%', padding: '20px', minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
+                <Card sx={{marginTop: isTabletOrMobile ? '-135px' : '-90px', overflow: 'visible', width: '90%', padding: '20px', minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
                     {props.children}
                 </Card>
             </Box>

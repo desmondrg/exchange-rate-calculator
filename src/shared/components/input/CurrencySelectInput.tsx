@@ -98,26 +98,6 @@ export default class CurrencySelectInput extends React.Component<Props, Currency
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | Iterable<React.ReactNode> | React.ReactPortal | boolean | null | undefined {
 
-
-        // let currencyToSelect = {} as ICurrency;
-
-        // add the default currency to props for auto select of the input using an index
-        // const localCurrencies = [{name: ''} as ICurrency, ...this.props.currencies];
-
-
-        // use the passed in currency name to find the currency to select
-        // if(this.state.localCurrencies?.length)
-        // {
-        //      const  currencyOrNot = this.state.localCurrencies?.find(x => x.name === this.props.selectedCurrencyName);
-        //
-        //      if(currencyOrNot)
-        //      {
-        //          currencyToSelect = currencyOrNot;
-        //      }
-        //     // setCurrency(currencyToSelect);
-        // }
-
-        // default currency is set only once even if the component is re-rendered
          return (
             <Box sx={{ minWidth: 120, ...this.props?.sx }}>
                 <Autocomplete

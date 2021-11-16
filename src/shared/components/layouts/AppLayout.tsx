@@ -32,7 +32,7 @@ interface Props {
 
 function HideOnScroll(props: Props) {
     const { children } = props;
-    const trigger = useScrollTrigger({threshold: 5});
+    const trigger = useScrollTrigger({threshold: 150});
 
     return (
         <Slide appear={false} direction="down" in={!trigger} timeout={{appear: 100, enter: 100, exit: 100}}>
@@ -91,12 +91,14 @@ export default function AppLayout(props: Props) {
         setIsDrawerOpen(!isDrawerOpen);
     }
 
+    const isToColorAppBar = useScrollTrigger({threshold: 60, disableHysteresis: true});
+
     return (
         <React.Fragment>
             <CssBaseline />
             <HideOnScroll {...props}>
                 <Box id='back-to-top-anchor' sx={{ flexGrow: 1 }}>
-                    <AppBar position="fixed" style={{ background: 'transparent', boxShadow: 'none'}}>
+                    <AppBar position="fixed" style={{ background: isToColorAppBar ? '#012A6A' : 'transparent', boxShadow: 'none'}}>
 
                         <Toolbar>
                             <Link to='/'>
