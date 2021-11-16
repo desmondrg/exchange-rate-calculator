@@ -1,7 +1,7 @@
 
 # Shumba Money Exchange Rate Calculator
   
-Shumba Money Exchange Rate Calculator is a React Web App by [Desmond Rgwaringesu](https://zw.linkedin.com/in/desmond-rgwaringesu-83595798). The project was created as a response to a coding challenge from [Shumba Money Remittance][shumbaMoney]. The challenge involved building a user friendly rate exchange calculator from scratch using either Node.js, React.js or Java. A live demo of the app is available at : https://shumba.herokuapp.com/
+Shumba Money Exchange Rate Calculator is a React Web App by [Desmond Rgwaringesu][desmondrg]. The project was created as a response to a coding challenge from [Shumba Money Remittance][shumbaMoney]. The challenge involved building a user friendly rate exchange calculator from scratch using either Node.js, React.js or Java. A live demo of the app build by [Desmond Rgwaringesu][desmondrg] is available at : https://shumba.herokuapp.com/
 .The Rate Exchange app has the following behaviours and features:  
  - Input validation for the entered amount  
 - A conversion button that only gets activated if all form values are valid   
@@ -77,3 +77,4 @@ yarn run dev:ui
 [googleApp]: https://cloud.google.com/appengine
 [elasticBean]: https://aws.amazon.com/elasticbeanstalk/
 [shumbaMoney]: https://www.shumbamoney.com/
+[desmondrg]: https://zw.linkedin.com/in/desmond-rgwaringesu-83595798
